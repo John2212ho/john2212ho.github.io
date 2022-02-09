@@ -15,6 +15,13 @@
       "type": "Animation"
     },
     {
+      "location": "swfs/super-mario-flash-2.swf",
+      "title": "Super Mario Flash 2",
+      "author": "IDK",
+      "authorLink": "https://www.youtube.com/watch?v=7WL8fYjsli8&t=8s",
+      "type": "Game"
+    },
+    {
       "location": "swfs/synj1.swf",
       "title": "Synj vs. Horrid Part 1",
       "author": "Dan Paladin",

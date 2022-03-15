@@ -2,11 +2,10 @@
 
 MAIN.JS
 
-Copyright (c) 2021 ellieeet123
-Licenced under MIT. For more info, visit https://github.com/ellieeet123/ellieeet123.github.io/LICENCE
+Copyright (c) 2022 John2212ho
+Licenced under GNU General Public License v3.0. For more info, visit https://github.com/john2212ho/john2212ho.github.io/LICENCE
 A collection of functions that are for Pringles, a fancy little game site.
-To visit the site, check out https://ellieeet123.github.io/
-
+To visit the site, check out https://john2212ho.github.io/
 ===========================================================================================================================*/
 
 //resizes an iframe based on how tall the content inside of it is. Used for the sidebar.
@@ -268,6 +267,15 @@ var colorThemes = {
     'link': '#808080',
     'sidebarlink': '#808080',
     'button': '#404040'
+  },
+  'Neon': {
+    'backgroundtype': 'image',
+    'background': '/images/bg/neon.jpg',
+    'textbg': '#000000',
+    'text': '#ffffff',
+    'link': '#fffa00',
+    'sidebarlink': '#00ccf5',
+    'button': '#dc00f0'
   }
 };
 
@@ -336,6 +344,12 @@ function colorTheme() {
     changeStyleForElement(savedGamesIframe.getElementById('savedgamestitle'),'color',themeData.text);
     changeStyleForElement(savedGamesIframe.getElementById('nosaved'), 'color', themeData.text);
     changeStyleForElement(document.getElementById('splash'),'color',themeData.link);
+
+    // also take care of some resizing stuff here cus idk where else to put it
+    document.getElementById('firstdiv').style.width = (document.getElementById('main').offsetWidth - 500) + 'px';
+    window.addEventListener('resize', function() {
+      document.getElementById('firstdiv').style.width = (document.getElementById('main').offsetWidth - 500) + 'px';
+    });
   }
   if (document.getElementById('bookmark') != null) {
     var bookmark = document.getElementById('bookmark');
@@ -344,6 +358,13 @@ function colorTheme() {
     changeStyleForElement(close,'backgroundColor',themeData.button);
     buttonHover(bookmark,themeData.button);
     buttonHover(close,themeData.button);
+  }
+  let squares = document.getElementsByClassName('squaresNew')
+  for (let i = 0; i < squares.length; i++) {
+    squares[i].style.color = '#ffffff';
+    squares[i].style.background = themeData.button;
+    squares[i].style.cursor = 'pointer';
+    buttonHover(squares[i], themeData.button);
   }
 }
 
@@ -358,7 +379,7 @@ function makeSettingsPage() {
   document.getElementById('button_div').innerHTML = '';
   for (var i = 0; i < keys.length; i = i+1) {
     currentButton = document.createElement('a');
-    currentButton.className = 'squaresNew';
+    currentButton.className = 'themeSelectors';
     currentButton.style.cursor = 'pointer';
     currentButton.style.marginTop = '5px';
     currentButton.style.paddingBottom = '10px';
@@ -378,11 +399,6 @@ function makeSettingsPage() {
     changeStyleForElement(currentButton,'color','#ffffff');
     buttonHover(currentButton,themeData.button);
     document.getElementById('button_div').appendChild(currentButton);
-    for (var j = 0;j < 3;j++) {
-      document.getElementById('button_div').appendChild(
-        document.createElement('br')
-      );
-    }
     currentButton = null;
   }
   var save        = document.getElementById('savecolortheme');
@@ -414,15 +430,19 @@ function makeSettingsPage() {
   document.getElementById('customtheme_bgtype').click();
   document.getElementById('savecolortheme').onclick = function() {
     var output = {};
-    '[IMAGE]' == document.getElementById('bgtype_display').innerHTML
-      ? output.backgroundtype = 'image'
-      : output.backgroundtype == 'color';
+    if (document.getElementById('bgtype_display').innerHTML === '[IMAGE]') {
+      output.backgroundtype = 'image'
+    }
+    else {
+      output.backgroundtype = 'color';
+    }
     output.background = document.getElementById('bgsrc_input').firstChild.value;
     output.textbg = document.getElementById('textbg_input').value;
     output.text = document.getElementById('text_input').value;
     output.link = document.getElementById('link_input').value;
     output.sidebarlink = document.getElementById('sidebarlink_input').value;
     output.button = document.getElementById('button_input').value;
+    console.log(JSON.stringify(output));
     setCookie('customColorTheme', JSON.stringify(output), 1000);
     setCookie('colorTheme', 'Custom', 1000);
     colorTheme();
@@ -444,11 +464,14 @@ function showMessage (content, closeMessage) {
   var close       = document.createElement('a');
   var body        = document.body;
   var html        = document.documentElement;
-  var height      = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-  var width       = document.body.clientWidth;
+  var height      = innerHeight;
+  var width       = innerWidth;
   var colorTheme  = getCookie('colorTheme');
-  if (colorTheme == '') {
+  if (colorTheme === '') {
     colorTheme = 'Default';
+  }
+  if (colorTheme === 'Custom') {
+    colorThemes.Custom = JSON.parse(getCookie('customColorTheme'));
   }
   var color       = colorThemes[colorTheme].textbg;
   var textColor   = colorThemes[colorTheme].text;
@@ -457,7 +480,7 @@ function showMessage (content, closeMessage) {
   close.id = 'close';
   close.className = 'noColorChange';
   gray.style = `
-    background: rgba(60,60,60,0.6);
+    background: rgba(0,0,0,0.7);
     position: fixed;
     top: 0px;
     left: 0px;
@@ -465,15 +488,20 @@ function showMessage (content, closeMessage) {
   gray.style.width =  (width+100).toString()+'px';
   gray.style.height = height.toString()+'px';
   message.style = `
-    width: `+ Math.round(width/3) +`px;
-    height: `+ height-20 +`px;
     background: `+ color +`;
     position: fixed;
     right: 10px;
     top: 10px;
   `;
-  message.style.width =  (Math.round(width/3)).toString()+'px';
-  message.style.height = (height-20).toString()+'px';
+  if (width / height > 0.8) {
+    // desktop
+    message.style.width = ((width / 3) - 20).toString() + 'px';
+  }
+  else {
+    // mobile
+    message.style.width = (width - 60).toString() + 'px';
+  }
+  message.style.height = (height - 40).toString()+'px';
   message.style.padding = '10px';
   message.style.borderRadius = '4px';
   gray.id = 'gray';
@@ -518,7 +546,14 @@ function showMessage (content, closeMessage) {
   `;
   close.style.color = '#fff';
   close.style.background = buttonColor;
-  close.style.width = ((width/3)-20).toString()+'px';
+  if (width / height > 0.8) {
+    // desktop
+    close.style.width = ((width / 3) - 40).toString() + 'px';
+  }
+  else {
+    // mobile
+    close.style.width = (width - 80).toString() + 'px';
+  }
   close.style.position = 'fixed';
   close.style.bottom = '30px';
   close.innerHTML = closeMessage;
@@ -536,7 +571,35 @@ function showMessage (content, closeMessage) {
   };
   close.style.cursor = 'pointer';
   message.appendChild(close);
-};
+  window.addEventListener('resize', function() {
+    if (this.document.getElementById('message')) {
+      var height = innerHeight;
+      var width = innerWidth;
+      var message = this.document.getElementById('message');
+      var gray = this.document.getElementById('gray');
+      var close = this.document.getElementById('close');
+      if (width / height > 0.8) {
+        // desktop
+        message.style.width = ((width / 3) - 20).toString() + 'px';
+      }
+      else {
+        // mobile
+        message.style.width = (width - 60).toString() + 'px';
+      }
+      message.style.height = (height - 40).toString()+'px';
+      gray.style.width =  (width+100).toString()+'px';
+      gray.style.height = height.toString()+'px';
+      if (width / height > 0.8) {
+        // desktop
+        close.style.width = ((width / 3) - 40).toString() + 'px';
+      }
+      else {
+        // mobile
+        close.style.width = (width - 80).toString() + 'px';
+      }
+    }
+  });
+}
 
 //the inner workings of the sidebar, taking all the data from the link that is clicked on and saving it to cookies. Later, this data is used to build the game page.
 function sidebarMain(obj) {  
@@ -585,9 +648,7 @@ function buildGamePage() {
   }
   let isBigFile = getCookie('data_isBigFile');
   var waitForRuffleLoad = setInterval(function() {
-    console.log(0);
     if (window.RufflePlayer != undefined) {
-      console.log(1);
       clearInterval(waitForRuffleLoad);
       if (isFlash == '1') {
         const ruffle = window.RufflePlayer.newest();
@@ -642,13 +703,78 @@ function buildGamePage() {
 }
 
 //if the game is flash, set the download swf link to the swf file location
-function setDownloadLink() {
-  var downloadLink = document.getElementById('downloadswf');
+function prepareGameOptions() {
   if (getCookie('data_isFlash') == 1) {
-    downloadLink.innerHTML = 'Download SWF File';
-    downloadLink.href = document.getElementById('frame').src;
+    var downloadLink = document.getElementById('downloadswf');
+    downloadLink.href = document.getElementById('frame').swfUrl;
+    document.getElementById('pause').onclick = () => {
+      document.getElementById('frame').pause();
+    }
+    document.getElementById('resume').onclick = () => {
+      document.getElementById('frame').play();
+    }
+    document.getElementById('rufflefullscreen').onclick = () => {
+      document.getElementById('frame').enterFullscreen();
+    }
+    document.getElementById('advanced').onclick = () => {
+      if (document.getElementById('advanced').innerText === 'Show advanced options') {
+        document.getElementById('advanced').innerText = 'Hide advanced options';
+        showAdvancedOptions();
+        colorTheme();
+      }
+      else {
+        document.getElementById('advancedoptionscontainer').innerHTML = '';
+        document.getElementById('advanced').innerText = 'Show advanced options';
+      }
+    }
+    document.getElementById('html5gameoptions').remove()
+  }
+  else {
+    document.getElementById('flashgameoptions').remove()
+    document.getElementById('fullscreen').href = document.getElementById('frame').src;
+    document.getElementById('fullscreen').target = '_blank';
+  }
+  document.getElementById('optionscontainer').style.display = 'inline';
+}
+
+function showAdvancedOptions() {
+  var div = document.getElementById('advancedoptionscontainer');
+  div.innerHTML = 
+`<h3>Advanced Ruffle Config Options</h3>
+<p>For help, see the <a target="_blank" href="https://github.com/ruffle-rs/ruffle/wiki/Using-Ruffle#javascript-api">Ruffle wiki</a></p>
+<span>
+<p style="display:inline">CSS editor for Ruffle Object (<code>#frame</code>): </p>
+<input placeholder="width: 100px;" style="display:inline" id="rufflecss">
+<button style="display:inline" id="rufflecsssubmit">set</button>
+</span>
+<br>
+<span>
+<p style="display:inline">Set <code>ruffle-player.config</code> properties: </p>
+<input placeholder="name (ex. quality)" style="display:inline" id="rufflepropertyname">
+<input placeholder="value (ex. high)" style="display:inline" id="rufflepropertyvalue">
+<button style="display:inline" id="rufflepropertysubmit">set</button>
+</span>
+<br>
+<span>
+<p style="display:inline">Run a function for the ruffle player: </p>
+<input placeholder="enterFullscreen()" style="display:inline" id="rufflefunc">
+<button style="display:inline" id="rufflefuncsubmit">run</button>
+`
+  document.getElementById('rufflecsssubmit').onclick = () => {
+    cssToJs(document.getElementById('rufflecss').value, document.getElementById('frame'));
+    document.getElementById('rufflecss').value = '';
+  }
+  document.getElementById('rufflepropertysubmit').onclick = () => {
+    document.getElementById('frame').config[document.getElementById('rufflepropertyname').value] = document.getElementById('rufflepropertyvalue').value;
+    document.getElementById('rufflepropertyname').value = '';
+    document.getElementById('rufflepropertyvalue').value = '';
+  }
+  document.getElementById('rufflefuncsubmit').onclick = () => {
+    window.eval('document.getElementById("frame").' + document.getElementById('rufflefunc').value);
+    document.getElementById('rufflefunc').value = '';
   }
 }
+
 //sets the inside of the saved games frame to what it is supposed to be, aka the games that the user has saved
 function savedGamesList() {
   var loadedlist = getCookie('savedGames');
@@ -664,8 +790,7 @@ function savedGamesList() {
     }
   }
   console.log(gameLinkData);
-  if (gameLinkData.length == 0){ }
-  else {
+  if (!(gameLinkData.length === 0)){
     for (let x = 0; x < gameLinkData.length; x++) {
       ui.getElementsByClassName('nosaved')[0].innerHTML = ''; //no saved games message
       var div = ui.createElement('div');
@@ -781,22 +906,23 @@ function resizeGameFrame() {
 //waits until the SWF file has finished loading
 function waitForSwfLoad() {
   if (getCookie('data_isFlash') == 1){
-    var done = false;
     var interval = setInterval(function() {
       if (document.getElementById('frame')._readyState == 2) {
-        done = true;
         console.log("Finished!");
         var width = document.getElementById('frame').metadata.width;
         document.getElementById('frame').width = width;
         resizeGameFrame();
+        prepareGameOptions();
         document.getElementById('warn').remove();
-        setDownloadLink();
         clearInterval(interval);
       }
     }, 100);
   }
   else {
-    document.getElementById('frame').onload = document.getElementById('warn').remove();
+    document.getElementById('frame').onload = () => {
+      document.getElementById('warn').remove();
+      prepareGameOptions();
+    }
   }
 }
 
@@ -833,7 +959,6 @@ function splashText() {
     'Fun Fact: if you own the Mona Lisa there is nothing legally stopping you from eating it.',
     '"You miss 100% of the shots you don\'t take - Wayne Gretzky" - Michael Scott',
     '"It\'s ok to eat fish because they don\'t have any feelings" - Kurt Cobain',
-    '"I sing and play the guitar, and I\'m a walking, talking bacterial infection" - Kurt Cobain',
     '"Back in \'Nam Doritoes came in a can" - Illuminnex',
     'No sh!t sherlock',
     'e̶̡̧̢̨̞̝̦͍̗̭̜̻̦͖͙̱̖͙̰̦̗͈͓̭̱͍̥̫̘͙̗̯͇͔̬͈͚̱͑̎̈́̃̓̔͗̾̂̋̽̾̕͜ͅͅ',
@@ -859,7 +984,14 @@ function splashText() {
     '...',
     'Now with more than 2 lines of code!',
     '',
-    '01101110 01100101 01110110 01100101 01110010 00100000 01100111 01101111 01101110 01101110 01100001 00100000 01100111 01101001 01110110 01100101 00100000 01111001 01101111 01110101 00100000 01110101 01110000'
+    '01101110 01100101 01110110 01100101 01110010 00100000 01100111 01101111 01101110 01101110 01100001 00100000 01100111 01101001 01110110 01100101 00100000 01111001 01101111 01110101 00100000 01110101 01110000',
+    'They should add subtitles to audio books so deaf people can read them.',
+    'The most common word in the english language is the',
+    'Fun fact: In <i>Avengers: Endgame</i> (2019), Thanos says "I am inevitable". This is a mistake from the filmmakers because he is actually Thanos.',
+    'That happened to my buddy Eric once',
+    '<span style=font-size:80px>hehe lois I am big text</span>',
+    'Always remember to lock up your steaks incase of a steak robbery',
+    'Your honor, it wasn\'t a "hate crime", it was a gamer moment'
   ];
   var numGames = document.getElementById('sidebar').contentWindow.document.getElementById('games').getElementsByTagName('a').length;
   document.getElementById('splash').innerHTML = splashes[Math.floor(Math.random() * splashes.length)];

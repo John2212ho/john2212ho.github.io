@@ -269,7 +269,24 @@ body {
   text-decoration: none;
   text-align: center;
   float: left;
-  font: 0.8rem arial;
+  font-family: arial !important;
+  font-size: 0.8rem !important;
+  color: #ffffff;
+}
+
+.themeSelectors {
+  border-radius: 3px;
+  background: #22a5df;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: 17px;
+  margin-top: 32px;
+  margin-right: 8px;
+  text-decoration: none;
+  text-align: center;
+  float: left;
   color: #ffffff;
 }
 
@@ -302,3 +319,14 @@ body {
   display: inline;
 }
 
+#gameoptions, .themeSelectors {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#optionscontainer {
+  display: none;
+}

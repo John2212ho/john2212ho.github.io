@@ -6,6 +6,7 @@ Copyright (c) 2022 John2212ho
 Licenced under GNU General Public License v3.0. For more info, visit https://github.com/john2212ho/john2212ho.github.io/LICENCE
 A collection of functions that are for Pringles, a fancy little game site.
 To visit the site, check out https://john2212ho.github.io/
+
 ===========================================================================================================================*/
 
 //resizes an iframe based on how tall the content inside of it is. Used for the sidebar.

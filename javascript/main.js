@@ -14,68 +14,7 @@ function resizeIframe(obj){
   obj.height = (obj.contentWindow.document.body.scrollHeight + 20);
 }
 
-//make a popup window
-function popup(url) {
-  popupWindow = window.open(url, 'popUpWindow', 'height=700,width=1000,left=50,top=50,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
-}
-
-//automatically sets the title of the page based on the content of the h3 tag at the top of the page.
-function setTitle(){
-  var titleData = document.getElementById('title').textContent + ' - Pringles';
-  document.title = titleData;
-}
-
-//sets a cookie [script from w3schools.com]
-function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  let expires = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-//loads a cookie [script from w3schools.com]
-function getCookie(cname) {
-  let name = cname + "=";
-  let ca = document.cookie.split(';');
-  for(let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
-//gets a json with current color theme data
-function getThemeData() {
-  if (getCookie('colorTheme') == 'Custom') {
-    return JSON.parse(getCookie('customColorTheme'));
-  }
-  else {
-    return colorThemes[getCookie('colorTheme')];
-  }
-}
-
-//clears the old darkmode cookie and sets the new one (temporary script)
-if (getCookie('darkmode') == 'yes') {
-  setCookie('colorTheme', 'Dark', 1000);
-  setCookie('darkmode', null, -1);
-}
-else if (getCookie('darkmode') == 'no') {
-  setCookie('colorTheme', 'Default', 1000);
-  setCookie('darkmode', null, -1);
-}
-if (getCookie('colorTheme') == 'default') {
-  setCookie('colorTheme', 'Default', 1000);
-}
-if (getCookie('colorTheme') == 'dark') {
-  setCookie('colorTheme', 'Dark', 1000);
-}
-
-//changes all of a given element type to the style specified when calling the function.
+n calling the function.
 function changeStyleForElementType(element,style,value) {
   var elements = document.getElementsByTagName(element);
   if (elements.length > 0) {

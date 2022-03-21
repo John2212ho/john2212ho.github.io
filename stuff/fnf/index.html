@@ -1,28 +1,68 @@
 <!doctype html>
-<html lang="en-us">
-  <head>
-    <script id="scriptRuffle" src="/ruffle/ruffle.js"></script>
-    <script id="scriptMain" src="/javascript/main.js"></script>
-    <link id="styleMain" rel="stylesheet" href="/css/main.css">
-    <link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" sizes="16x16 32x32 64x64" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-192.png"><link rel="icon" type="image/png" sizes="160x160" href="/images/favicon-160.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96.png"><link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png"><link rel="apple-touch-icon" href="/images/favicon-57.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/favicon-114.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/favicon-72.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/favicon-144.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/favicon-60.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/favicon-120.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/favicon-76.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/favicon-152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="/images/favicon-144.png"><meta name="msapplication-config" content="/browserconfig.xml">
-  </head>
-  <body>
-    <noscript id="noscript"><h1>Javascript has been disabled.</h1><br><p>This page requires javascript in order to load properly. Please enable it via chrome settings.</p></noscript>
-    <iframe id="header" scrolling="no" height="100" width="100%" src="/other/header.html" frameborder="0"></iframe>
-    <iframe id="sidebar" frameborder="0" style="float: left;margin-top: 350;top: 350;margin-left: -10px;" scrolling="no" width="170" src="/other/sidebar.html" onload='resizeIframe(this)'></iframe>
+<html>
+    <head>
+        <script src="/javascript/main.js"></script>
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" sizes="16x16 32x32 64x64" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-192.png"><link rel="icon" type="image/png" sizes="160x160" href="/images/favicon-160.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96.png"><link rel="icon" type="image/png" sizes="64x64" href="/images/favicon-64.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png"><link rel="apple-touch-icon" href="/images/favicon-57.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/favicon-114.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/favicon-72.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/favicon-144.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/favicon-60.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/favicon-120.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/favicon-76.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/favicon-152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="/images/favicon-144.png"><meta name="msapplication-config" content="/browserconfig.xml">
+    </head>
+    <body>
+        <div>
+            <iframe id="header" scrolling="no" height="100" width="100%" src="/other/header.html" frameborder="0"></iframe>
+        </div>
+        <div>
+            <iframe id="sidebar" frameborder="0" style="float: left;margin-top: 350;top: 350;margin-left: -10px;" scrolling="no" width="170" src="/other/sidebar.html" onload='sidebarLoaded()'></iframe>
+        </div>
+        <div id="main" class="main">
+            <div class="main_text">
+                <h3 id="title">Home</h3>
+                     <p>Game of the Week</p>
+                </div>
+                
+                    <div id="games" style="display:block;">
+                        <a href="/games/" onclick="sidebarMain();" target="_parent" 
+                        data-title="Rage 3"
+                        data-text=""
+                        data-isflash="1"
+                        data-framesrc="rage-3.swf"
+                        data-framewidth="1100"
+                        data-frameheight="700"
+                        data-isbigfile="1"
+                        ></a>
+			    </p>- An awesome fighting type game with some extra features ;) (hence the rage part..)</p>
+                
+                <div class="p_big">
+                    <p>New Today!</p>
+                </div>
+                <div id="new">
+                    <div id="games" style="display:block;">
+                        <a href="/games/" onclick="sidebarMain();" target="_parent" 
+                        data-title="Zelda: A Link To The Past"
+                        data-text=""
+                        data-isflash="0"
+                        data-framesrc="https://t-rexrunner.github.io/GBA-Games/launcher.html#zelda_past"
+                        data-framewidth="1090"
+                        data-frameheight="613"
+                        data-isbigfile="0"
+                        ></a>
+                    </div>
 </div>
-<div id="fnf">  
-         data-title="Proxy: Holy"
-    data-text="Cool"
-    data-isflash="0"
-    data-framesrc="https://here.loginccpsnet.net/"
-    data-framewidth="1090"
-    data-frameheight="613"
-    data-isbigfile="0"
-    ></a>  
-      </div>
-    </div>
-    <script id="scriptBody" src="/javascript/bodyScript.js"></script>
-  </body>
+                <br>
+            </div>
+        </div>
+        <script src="/javascript/bodyScript.js"></script>
+        <script>
+            let allATags = document.getElementsByTagName('a');
+            for (let f = 1; f < allATags.length; f++) {
+                let currentItem = allATags[f];
+                if (currentItem.hasAttribute('data-title')) {
+                    currentItem.innerHTML = currentItem.dataset.title;
+                    currentItem.onclick = function() {
+                        sidebarMain(currentItem);
+                    }
+                }
+            }
+	        document.getElementById('firstdiv').style.width = (document.getElementById('main').offsetWidth - 500)+'px';
+        </script>
+    </body>
 </html>
 <div id="bottomElement"></div>

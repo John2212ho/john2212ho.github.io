@@ -1,2 +1,0 @@
-# bulletforcegame
-Play bullet force.

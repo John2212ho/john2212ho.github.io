@@ -1,0 +1,19 @@
+<html>
+<header>
+
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <title>Baldi's Basics</title>
+    <script src="baldi.js"></script>
+    <link rel="shortcut icon" href="/images/nklogo-icon.ico">
+    <script>
+        var gameInstance = UnityLoader.instantiate("gameContainer", "baldi.json", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(gameInstance, "complete")}}});
+    </script>
+</header>
+<body style="backgroud-color:black;">
+<div class="webgl-content">
+        <div id="gameContainer" style="width: 800px; height: 560px; margin: auto"></div>
+        </div>
+  <script src="firebase-app.js"></script>
+</body>
+</html>
